@@ -56,15 +56,15 @@ RequiresPostUn:
   - systemd
 PkgBR:
   - systemd
-  - qt5-qttools-linguist
-  - qt5-qmake
-  - qml-rpm-macros
+  # qt5-qttools-linguist
+  # qt5-qmake
+  # qml-rpm-macros
   - libevent-devel
   - libnatpmp-devel
-  - miniupnpc-devel
+  # miniupnpc-devel
   - curl-devel
 PkgConfigBR:
-    - ssl
+    - openssl
 Configure: none
 Builder: qmake5
 NoIconCache: true

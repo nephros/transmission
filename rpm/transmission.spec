@@ -19,14 +19,10 @@ Source100:  transmission.yaml
 Source101:  transmission-rpmlintrc
 Requires(post): systemd
 Requires(postun): systemd
-BuildRequires:  pkgconfig(ssl)
+BuildRequires:  pkgconfig(openssl)
 BuildRequires:  systemd
-BuildRequires:  qt5-qttools-linguist
-BuildRequires:  qt5-qmake
-BuildRequires:  qml-rpm-macros
 BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
-BuildRequires:  miniupnpc-devel
 BuildRequires:  curl-devel
 
 %description
