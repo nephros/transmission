@@ -1,3 +1,11 @@
 [submodule "upstream"]
 	path = upstream
 	url = https://github.com/transmission/transmission
+[submodule "dht"]
+	path = dht
+	url = https://github.com/transmission/dht
+	branch = post-0.25-transmission
+[submodule "miniupnpc"]
+	path = miniupnpc
+	url = https://github.com/transmission/miniupnpc
+	branch = post-2.0.20170509-transmission
