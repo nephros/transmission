@@ -26,7 +26,7 @@ BuildRequires:  libnatpmp-devel
 BuildRequires:  curl-devel
 
 %description
-
+Transmission is a fast, easy, and free BitTorrent client.
 
 %if "%{?vendor}" == "chum"
 PackageName: Transmission
@@ -53,7 +53,15 @@ Group:      Applications/Internet
 Requires:   %{name} = %{version}-%{release}
 
 %description daemon
-%{summary}.
+Transmission is a fast, easy, and free BitTorrent client.
+
+This is the headless daemon component.
+%if "%{?vendor}" == "chum"
+PackageName: Transmission Daemon
+Type: console-application
+PackagerName: nephros
+%endif
+
 
 %package cli
 Summary:    CLI utility component of %{name}
@@ -61,7 +69,15 @@ Group:      Applications/Internet
 Requires:   %{name} = %{version}-%{release}
 
 %description cli
-%{summary}.
+Transmission is a fast, easy, and free BitTorrent client.
+
+This is the commmand-line utility component.
+%if "%{?vendor}" == "chum"
+PackageName: Transmission CLI
+Type: console-application
+PackagerName: nephros
+%endif
+
 
 %prep
 %setup -q -n %{name}-%{version}/upstream
