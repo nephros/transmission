@@ -20,7 +20,8 @@ Source101:  transmission-rpmlintrc
 Requires(post): systemd
 Requires(postun): systemd
 BuildRequires:  pkgconfig(openssl)
-BuildRequires:  systemd
+BuildRequires:  pkgconfig(libsystemd)
+BuildRequires:  cmake
 BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
 BuildRequires:  curl-devel
@@ -89,7 +90,24 @@ PackagerName: nephros
 # >> build pre
 # << build pre
 
-%qmake5 
+%cmake .  \
+    -DCMAKE_INSTALL_DOCDIR=share/doc/%{name} \
+    -DENABLE_CLI=ON \
+    -DENABLE_GTK=OFF \
+    -DENABLE_LIGHTWEIGHT=ON \
+    -DENABLE_NLS=OFF \
+    -DENABLE_QT=OFF \
+    -DENABLE_TESTS=OFF \
+    -DUSE_SYSTEM_EVENT2=ON \
+    -DUSE_SYSTEM_DHT=OFF \
+    -DUSE_SYSTEM_MINIUPNPC=OFF \
+    -DUSE_SYSTEM_NATPMP=ON \
+    -DUSE_SYSTEM_UTP=OFF \
+    -DUSE_SYSTEM_B64=OFF \
+    -DWITH_CRYPTO=openssl \
+    -DWITH_INOTIFY=ON \
+    -DWITH_LIBAPPINDICATOR=ON \
+    -DWITH_SYSTEMD=ON
 
 make %{?_smp_mflags}
 
@@ -100,7 +118,7 @@ make %{?_smp_mflags}
 rm -rf %{buildroot}
 # >> install pre
 # << install pre
-%qmake5_install
+%make_install
 
 # >> install post
 # mangle version info
