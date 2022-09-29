@@ -3,13 +3,14 @@ Summary: BitTorrent daemon and client
 Version: 3.0.0
 Release: 0
 Group: Applications/Internet
-#License: Apache-2.0
-#License: MIT
 License: GPLv2+ and GPLv3+
 URL: https://transmissionbt.com
 SCM: https://github.com/nephros/transmission
 Sources:
     - '%{name}-%{version}.tar.gz'
+Patches:
+  - cmake-unused-command-line.patch
+  - transmission-3.00-openssl-3.patch
 Description: |
     Transmission is a fast, easy, and free BitTorrent client.
 

@@ -17,6 +17,8 @@ URL:        https://transmissionbt.com
 Source0:    %{name}-%{version}.tar.gz
 Source100:  transmission.yaml
 Source101:  transmission-rpmlintrc
+Patch0:     cmake-unused-command-line.patch
+Patch1:     transmission-3.00-openssl-3.patch
 Requires(post): systemd
 Requires(postun): systemd
 BuildRequires:  pkgconfig(openssl)
@@ -83,6 +85,10 @@ PackagerName: nephros
 %prep
 %setup -q -n %{name}-%{version}/upstream
 
+# cmake-unused-command-line.patch
+%patch0 -p1
+# transmission-3.00-openssl-3.patch
+%patch1 -p1
 # >> setup
 # << setup
 
