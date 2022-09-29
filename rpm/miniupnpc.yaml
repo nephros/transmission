@@ -1,0 +1,80 @@
+Name: miniupnpc
+Summary: miniupnpc
+Version: 2.0.20170509
+Release: 0
+Group: Applications/Internet
+License: GPLv2+ and GPLv3+
+URL: https://transmissionbt.com
+SCM: https://github.com/nephros/transmission
+Sources:
+    - '%{name}-%{version}.tar.gz'
+#Patches:
+#  - cmake-unused-command-line.patch
+#  - transmission-3.00-openssl-3.patch
+#Description: |
+#
+#    %if "%{?vendor}" == "chum"
+#    PackageName: Transmission
+#    Type: console-application
+#    PackagerName: nephros
+#    Custom:
+#      Repo: https://github.com/nephros/transmission
+#    Icon: %{url}/master/icons/template.svg
+#    Url:
+#      Homepage:  https://transmissionbt.com
+#      Help: https://forum.transmissionbt.com/
+#      Bugtracker: https://github.com/transmission/transmission
+#      Donations:
+#        - https://noyb.eu/en/donations-other-support-options
+#        - https://my.fsfe.org/donate
+#        - https://supporters.eff.org/donate/join-4
+#        - https://openrepos.net/donate
+#    %endif
+#
+SetupOptions: -q -n %{name}-%{version}/%{name}
+RpmLintIgnore:
+  - 'summary-too-long'
+  - 'no-changelogname-tag'
+  - 'invalid-url'
+  - 'desktopfile-without-binary'
+  - 'explicit-lib-dependency'
+#Macros:
+#  - 'foo;bar'
+#  - |
+#    spectacle_bug; hack_fix
+#    # Spectacular spectacle hack:
+#    #   abuse Macros to work around the Macro-deleting bug in 0.32
+#    #   also, add a conditional dep:
+#    %if 0%{?sailfishos_version} >= 30400
+#    BuildRequires: some-package
+#    %endif
+#Patches:
+#  - 'baz'
+RequiresPost:
+  - systemd
+RequiresPostUn:
+  - systemd
+PkgBR:
+  - cmake
+  # qt5-qttools-linguist
+  # qt5-qmake
+  # qml-rpm-macros
+  - libevent-devel
+  - libnatpmp-devel
+  # miniupnpc-devel
+  - curl-devel
+PkgConfigBR:
+  - openssl
+  - libsystemd
+Configure: none
+Builder: make
+NoIconCache: true
+#BuildArch: noarch
+#AutoSubPackages:
+#  - doc
+Files:
+  - '%{_bindir}/*'
+  - '%dir %{_datadir}/%{name}'
+  - '%{_datadir}/%{name}/translations/*.qm'
+  - '%{_datadir}/%{name}/qml/*'
+
