@@ -12,9 +12,10 @@ Summary:    BitTorrent daemon and client
 Version:    3.0.0
 Release:    0
 Group:      Applications/Internet
-License:    GPLv2+ and GPLv3+
+License:    GPLv2+ or GPLv3+
 URL:        https://transmissionbt.com
 Source0:    %{name}-%{version}.tar.gz
+Source1:    transmission-daemon.service
 Source100:  transmission.yaml
 Source101:  transmission-rpmlintrc
 Patch0:     cmake-unused-command-line.patch
@@ -24,12 +25,10 @@ Requires:   %{name}-cli
 Requires:   %{name}-web
 Requires:   %{name}-remote
 Requires:   %{name}-tools
-Requires(post): systemd
-Requires(postun): systemd
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(systemd)
+BuildRequires:  pkgconfig(libevent)
 BuildRequires:  cmake
-BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
 BuildRequires:  miniupnpc-devel
 BuildRequires:  dht-devel
@@ -66,6 +65,10 @@ Url:
 %package daemon
 Summary:    Daemon component of %{name}
 Group:      Applications/Internet
+Requires:   systemd
+Requires(pre): systemd
+Requires(post): systemd
+Requires(postun): systemd
 
 %description daemon
 Transmission is a fast, easy, and free BitTorrent client.
@@ -207,7 +210,23 @@ rm -rf %{buildroot}
 # we don't need to install docs:
 rm -rf %{buildroot}/%{_mandir}/*
 rm -rf %{buildroot}/%{_docdir}/*
+install -m644 -D %SOURCE1 %{buildroot}/%{_userunitdir}/%{name}-daemon.service
 # << install post
+
+%preun daemon
+# >> preun daemon
+%systemd_user_preun %{name}-daemon.service
+# << preun daemon
+
+%post daemon
+# >> post daemon
+%systemd_user_post %{name}-daemon.service
+# << post daemon
+
+%postun daemon
+# >> postun daemon
+%systemd_user_postun %{name}-daemon.service
+# << postun daemon
 
 %files
 %defattr(-,root,root,-)
@@ -217,6 +236,7 @@ rm -rf %{buildroot}/%{_docdir}/*
 %files daemon
 %defattr(-,root,root,-)
 %{_bindir}/%{name}-daemon
+%{_userunitdir}/%{name}-daemon.service
 # >> files daemon
 # << files daemon
 

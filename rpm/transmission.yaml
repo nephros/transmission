@@ -3,11 +3,12 @@ Summary: BitTorrent daemon and client
 Version: 3.0.0
 Release: 0
 Group: Applications/Internet
-License: GPLv2+ and GPLv3+
+License: GPLv2+ or GPLv3+
 URL: https://transmissionbt.com
 SCM: https://github.com/nephros/transmission
 Sources:
     - '%{name}-%{version}.tar.gz'
+    - 'transmission-daemon.service'
 Patches:
   - cmake-unused-command-line.patch
   - transmission-3.00-openssl-3.patch
@@ -51,13 +52,8 @@ Requires:
   - '%{name}-web'
   - '%{name}-remote'
   - '%{name}-tools'
-RequiresPost:
-  - systemd
-RequiresPostUn:
-  - systemd
 PkgBR:
   - cmake
-  - libevent-devel
   - libnatpmp-devel
   - miniupnpc-devel
   - dht-devel
@@ -65,6 +61,7 @@ PkgBR:
 PkgConfigBR:
   - openssl
   - systemd
+  - libevent
 Configure: cmake
 ConfigOptions: 
    - '-DCMAKE_INSTALL_DOCDIR=share/doc/%{name}'
@@ -96,6 +93,14 @@ SubPackages:
       Summary: Daemon component of %{name}
       Group: Applications/Internet
       AutoDepend: false
+      Requires:
+        - systemd
+      RequiresPre:
+        - systemd
+      RequiresPost:
+        - systemd
+      RequiresPostUn:
+        - systemd
       Description: |
           Transmission is a fast, easy, and free BitTorrent client.
 
@@ -111,6 +116,7 @@ SubPackages:
           %endif
       Files:
          - '%{_bindir}/%{name}-daemon'
+         - '%{_userunitdir}/%{name}-daemon.service'
 
     - Name:  cli
       Summary: CLI utilities of %{name}

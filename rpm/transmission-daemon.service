@@ -1,0 +1,15 @@
+[Unit]
+Description=Transmission BitTorrent Daemon
+After=network.target
+
+[Service]
+Environment=TRANSMISSION_HOME=%h/.config/transmission
+#User=transmission
+#Group=inet
+Type=notify
+ExecStart=/usr/bin/transmission-daemon -f --log-error
+ExecReload=/bin/kill -s HUP $MAINPID
+NoNewPrivileges=true
+
+[Install]
+WantedBy=post-user-session.target
