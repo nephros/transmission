@@ -215,17 +215,23 @@ install -m644 -D %SOURCE1 %{buildroot}/%{_userunitdir}/%{name}-daemon.service
 
 %preun daemon
 # >> preun daemon
+%if 0%{?sailfishos_version} >= 40000
 %systemd_user_preun %{name}-daemon.service
+%endif
 # << preun daemon
 
 %post daemon
 # >> post daemon
+%if 0%{?sailfishos_version} >= 40000
 %systemd_user_post %{name}-daemon.service
+%endif
 # << post daemon
 
 %postun daemon
 # >> postun daemon
+%if 0%{?sailfishos_version} >= 40000
 %systemd_user_postun %{name}-daemon.service
+%endif
 # << postun daemon
 
 %files
