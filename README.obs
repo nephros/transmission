@@ -1,0 +1,16 @@
+The rpm/ sub directory contains multiple .spec files.
+
+This makes OBS ususally complain if you use the tar_git service.
+The solution is to create one OBS package for each .spec file, and use the same _service file in each of those packages.
+
+So:
+
+    project: transmission
+        package: transmission
+            _service
+        package: dht
+            _service
+        package: upnpc
+            _service
+
+and the _service git url points to the same git repo
