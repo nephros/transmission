@@ -14,13 +14,19 @@ Patches:
 Description: |
     Transmission is a fast, easy, and free BitTorrent client.
 
+    This package will install all components of Transmission.
+    If you only want the daemon or the remote, install the individual packages.
+
     %if "%{?vendor}" == "chum"
     PackageName: Transmission
     Type: console-application
     PackagerName: nephros
+    Categories:
+     - Network
+     - P2P
     Custom:
       Repo: https://github.com/nephros/transmission
-    Icon: %{url}/master/icons/template.svg
+    Icon: %{url}/assets/images/Transmission_icon.png
     Url:
       Homepage:  https://transmissionbt.com
       Help: https://forum.transmissionbt.com/
@@ -39,27 +45,18 @@ RpmLintIgnore:
   - 'invalid-url'
   - 'desktopfile-without-binary'
   - 'explicit-lib-dependency'
-#Macros:
-#  - 'foo;bar'
-#  - |
-#    spectacle_bug; hack_fix
-#    # Spectacular spectacle hack:
-#    #   abuse Macros to work around the Macro-deleting bug in 0.32
-#    #   also, add a conditional dep:
-#    %if 0%{?sailfishos_version} >= 30400
-#    BuildRequires: some-package
-#    %endif
-#Patches:
-#  - 'baz'
+Requires:
+  - '%{name}-daemon'
+  - '%{name}-cli'
+  - '%{name}-web'
+  - '%{name}-remote'
+  - '%{name}-tools'
 RequiresPost:
   - systemd
 RequiresPostUn:
   - systemd
 PkgBR:
   - cmake
-  # qt5-qttools-linguist
-  # qt5-qmake
-  # qml-rpm-macros
   - libevent-devel
   - libnatpmp-devel
   - miniupnpc-devel
@@ -67,7 +64,7 @@ PkgBR:
   - curl-devel
 PkgConfigBR:
   - openssl
-  - libsystemd
+  # libsystemd
 Configure: cmake
 ConfigOptions: 
    - '-DCMAKE_INSTALL_DOCDIR=share/doc/%{name}'
@@ -93,35 +90,112 @@ NoIconCache: true
 #BuildArch: noarch
 #AutoSubPackages:
 #  - doc
-Files:
-  - '%{_bindir}/*'
-  - '%dir %{_datadir}/%{name}'
-  - '%{_datadir}/%{name}/translations/*.qm'
-  - '%{_datadir}/%{name}/qml/*'
 
 SubPackages:
     - Name:  daemon
       Summary: Daemon component of %{name}
       Group: Applications/Internet
+      AutoDepend: false
       Description: |
           Transmission is a fast, easy, and free BitTorrent client.
 
           This is the headless daemon component.
           %if "%{?vendor}" == "chum"
           PackageName: Transmission Daemon
+          Icon: %{url}/assets/images/Transmission_icon.png
           Type: console-application
           PackagerName: nephros
+          Categories:
+           - Network
+           - P2P
           %endif
+      Files:
+         - '%{_bindir}/%{name}-daemon'
 
     - Name:  cli
-      Summary: CLI utility component of %{name}
+      Summary: CLI utilities of %{name}
       Group: Applications/Internet
+      AutoDepend: false
       Description: |
           Transmission is a fast, easy, and free BitTorrent client.
 
-          This is the commmand-line utility component.
+          This is the commmand-line utility.
           %if "%{?vendor}" == "chum"
           PackageName: Transmission CLI
+          Icon: %{url}/assets/images/Transmission_icon.png
           Type: console-application
           PackagerName: nephros
+          Categories:
+           - Network
+           - P2P
           %endif
+      Files:
+        - '%{_bindir}/%{name}-cli'
+
+    - Name:  web
+      Summary: Web interface of %{name}
+      Group: Applications/Internet
+      AutoDepend: false
+      Requires:
+        - '%{name}-daemon'
+      Description: |
+          Transmission is a fast, easy, and free BitTorrent client.
+
+          This is the web interface component.
+          %if "%{?vendor}" == "chum"
+          PackageName: Transmission Web
+          Icon: %{url}/assets/images/Transmission_icon.png
+          Type: addon
+          PackagerName: nephros
+          Categories:
+           - Network
+           - P2P
+          %endif
+      Files:
+        - '%dir %{_datadir}/%{name}/web'
+        - '%{_datadir}/%{name}/web/*'
+
+    - Name:  remote
+      Summary: Remote control CLI tool of %{name}
+      Group: Applications/Internet
+      AutoDepend: false
+      Description: |
+          Transmission is a fast, easy, and free BitTorrent client.
+
+          This is the commmand-line remote control utility.
+          %if "%{?vendor}" == "chum"
+          PackageName: Transmission Remote
+          Icon: %{url}/assets/images/Transmission_icon.png
+          Type: console-application
+          PackagerName: nephros
+          Categories:
+           - Network
+           - P2P
+          %endif
+      Files:
+        - '%{_bindir}/%{name}-remote'
+
+
+    - Name:  tools
+      Summary: CLI tools of %{name}
+      Group: Applications/Internet
+      AutoDepend: false
+      Description: |
+          Transmission is a fast, easy, and free BitTorrent client.
+
+          This is the commmand-line utilities.
+          %if "%{?vendor}" == "chum"
+          PackageName: Transmission Tools
+          Icon: %{url}/assets/images/Transmission_icon.png
+          Type: console-application
+          PackagerName: nephros
+          Categories:
+           - Network
+           - P2P
+          %endif
+      Files:
+        - '%{_bindir}/%{name}-create'
+        - '%{_bindir}/%{name}-edit'
+        - '%{_bindir}/%{name}-show'
+
+

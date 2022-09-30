@@ -19,10 +19,14 @@ Source100:  transmission.yaml
 Source101:  transmission-rpmlintrc
 Patch0:     cmake-unused-command-line.patch
 Patch1:     transmission-3.00-openssl-3.patch
+Requires:   %{name}-daemon
+Requires:   %{name}-cli
+Requires:   %{name}-web
+Requires:   %{name}-remote
+Requires:   %{name}-tools
 Requires(post): systemd
 Requires(postun): systemd
 BuildRequires:  pkgconfig(openssl)
-BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  cmake
 BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
@@ -33,13 +37,19 @@ BuildRequires:  curl-devel
 %description
 Transmission is a fast, easy, and free BitTorrent client.
 
+This package will install all components of Transmission.
+If you only want the daemon or the remote, install the individual packages.
+
 %if "%{?vendor}" == "chum"
 PackageName: Transmission
 Type: console-application
 PackagerName: nephros
+Categories:
+ - Network
+ - P2P
 Custom:
   Repo: https://github.com/nephros/transmission
-Icon: %{url}/master/icons/template.svg
+Icon: %{url}/assets/images/Transmission_icon.png
 Url:
   Homepage:  https://transmissionbt.com
   Help: https://forum.transmissionbt.com/
@@ -55,7 +65,6 @@ Url:
 %package daemon
 Summary:    Daemon component of %{name}
 Group:      Applications/Internet
-Requires:   %{name} = %{version}-%{release}
 
 %description daemon
 Transmission is a fast, easy, and free BitTorrent client.
@@ -63,24 +72,89 @@ Transmission is a fast, easy, and free BitTorrent client.
 This is the headless daemon component.
 %if "%{?vendor}" == "chum"
 PackageName: Transmission Daemon
+Icon: %{url}/assets/images/Transmission_icon.png
 Type: console-application
 PackagerName: nephros
+Categories:
+ - Network
+ - P2P
 %endif
 
 
 %package cli
-Summary:    CLI utility component of %{name}
+Summary:    CLI utilities of %{name}
 Group:      Applications/Internet
-Requires:   %{name} = %{version}-%{release}
 
 %description cli
 Transmission is a fast, easy, and free BitTorrent client.
 
-This is the commmand-line utility component.
+This is the commmand-line utility.
 %if "%{?vendor}" == "chum"
 PackageName: Transmission CLI
+Icon: %{url}/assets/images/Transmission_icon.png
 Type: console-application
 PackagerName: nephros
+Categories:
+ - Network
+ - P2P
+%endif
+
+
+%package web
+Summary:    Web interface of %{name}
+Group:      Applications/Internet
+Requires:   %{name}-daemon
+
+%description web
+Transmission is a fast, easy, and free BitTorrent client.
+
+This is the web interface component.
+%if "%{?vendor}" == "chum"
+PackageName: Transmission Web
+Icon: %{url}/assets/images/Transmission_icon.png
+Type: addon
+PackagerName: nephros
+Categories:
+ - Network
+ - P2P
+%endif
+
+
+%package remote
+Summary:    Remote control CLI tool of %{name}
+Group:      Applications/Internet
+
+%description remote
+Transmission is a fast, easy, and free BitTorrent client.
+
+This is the commmand-line remote control utility.
+%if "%{?vendor}" == "chum"
+PackageName: Transmission Remote
+Icon: %{url}/assets/images/Transmission_icon.png
+Type: console-application
+PackagerName: nephros
+Categories:
+ - Network
+ - P2P
+%endif
+
+
+%package tools
+Summary:    CLI tools of %{name}
+Group:      Applications/Internet
+
+%description tools
+Transmission is a fast, easy, and free BitTorrent client.
+
+This is the commmand-line utilities.
+%if "%{?vendor}" == "chum"
+PackageName: Transmission Tools
+Icon: %{url}/assets/images/Transmission_icon.png
+Type: console-application
+PackagerName: nephros
+Categories:
+ - Network
+ - P2P
 %endif
 
 
@@ -129,25 +203,45 @@ rm -rf %{buildroot}
 %make_install
 
 # >> install post
-# mangle version info
-sed -i -e "s/unreleased/%{version}/" %{buildroot}%{_datadir}/%{name}/qml/%{name}.qml
+# we don't need to install docs:
+rm -rf %{buildroot}/%{_mandir}/*
+rm -rf %{buildroot}/%{_docdir}/*
 # << install post
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}/*
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/translations/*.qm
-%{_datadir}/%{name}/qml/*
 # >> files
 # << files
 
 %files daemon
 %defattr(-,root,root,-)
+%{_bindir}/%{name}-daemon
 # >> files daemon
 # << files daemon
 
 %files cli
 %defattr(-,root,root,-)
+%{_bindir}/%{name}-cli
 # >> files cli
 # << files cli
+
+%files web
+%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/web
+%{_datadir}/%{name}/web/*
+# >> files web
+# << files web
+
+%files remote
+%defattr(-,root,root,-)
+%{_bindir}/%{name}-remote
+# >> files remote
+# << files remote
+
+%files tools
+%defattr(-,root,root,-)
+%{_bindir}/%{name}-create
+%{_bindir}/%{name}-edit
+%{_bindir}/%{name}-show
+# >> files tools
+# << files tools
