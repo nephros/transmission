@@ -32,34 +32,8 @@ RpmLintIgnore:
   - 'invalid-url'
   - 'desktopfile-without-binary'
   - 'explicit-lib-dependency'
-#Macros:
-#  - 'foo;bar'
-#  - |
-#    spectacle_bug; hack_fix
-#    # Spectacular spectacle hack:
-#    #   abuse Macros to work around the Macro-deleting bug in 0.32
-#    #   also, add a conditional dep:
-#    %if 0%{?sailfishos_version} >= 30400
-#    BuildRequires: some-package
-#    %endif
-#Patches:
-#  - 'baz'
-RequiresPost:
-  - systemd
-RequiresPostUn:
-  - systemd
 PkgBR:
   - cmake
-  # qt5-qttools-linguist
-  # qt5-qmake
-  # qml-rpm-macros
-  - libevent-devel
-  - libnatpmp-devel
-  # miniupnpc-devel
-  - curl-devel
-PkgConfigBR:
-  - openssl
-  - libsystemd
 Configure: cmake
 ConfigOptions:
   - '-DUPNPC_BUILD_STATIC=FALSE'
@@ -89,6 +63,4 @@ SubPackages:
             Help: http://miniupnp.tuxfamily.org/forum/
             Bugtracker: https://github.com/miniupnp/miniupnp/issues
           %endif
-
-
 

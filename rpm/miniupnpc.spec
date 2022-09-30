@@ -17,16 +17,9 @@ URL:        http://miniupnp.tuxfamily.org/
 Source0:    %{name}-%{version}.tar.gz
 Source100:  miniupnpc.yaml
 Source101:  miniupnpc-rpmlintrc
-Requires(post): systemd
 Requires(post): /sbin/ldconfig
-Requires(postun): systemd
 Requires(postun): /sbin/ldconfig
-BuildRequires:  pkgconfig(openssl)
-BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  cmake
-BuildRequires:  libevent-devel
-BuildRequires:  libnatpmp-devel
-BuildRequires:  curl-devel
 
 %description
 
