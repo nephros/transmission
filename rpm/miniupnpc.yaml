@@ -1,35 +1,29 @@
 Name: miniupnpc
-Summary: miniupnpc
+Summary: an implementation of a UPnP IGD + NAT-PMP / PCP gateway
 Version: 2.0.20170509
 Release: 0
 Group: Applications/Internet
-License: GPLv2+ and GPLv3+
-URL: https://transmissionbt.com
+License: BSD-3-Clause
+URL: http://miniupnp.tuxfamily.org/
 SCM: https://github.com/nephros/transmission
 Sources:
     - '%{name}-%{version}.tar.gz'
-#Patches:
-#  - cmake-unused-command-line.patch
-#  - transmission-3.00-openssl-3.patch
-#Description: |
-#
-#    %if "%{?vendor}" == "chum"
-#    PackageName: Transmission
-#    Type: console-application
-#    PackagerName: nephros
-#    Custom:
-#      Repo: https://github.com/nephros/transmission
-#    Icon: %{url}/master/icons/template.svg
-#    Url:
-#      Homepage:  https://transmissionbt.com
-#      Help: https://forum.transmissionbt.com/
-#      Bugtracker: https://github.com/transmission/transmission
-#      Donations:
-#        - https://noyb.eu/en/donations-other-support-options
-#        - https://my.fsfe.org/donate
-#        - https://supporters.eff.org/donate/join-4
-#        - https://openrepos.net/donate
-#    %endif
+Description: |
+
+    %{summary}.
+
+    %if "%{?vendor}" == "chum"
+    PackageName: MiniUPnP
+    Type: console-application
+    PackagerName: nephros
+    DeveloperName: Thomas Bernard
+    Custom:
+      Repo: https://github.com/nephros/transmission
+    Url:
+      Homepage: %{url}
+      Help: http://miniupnp.tuxfamily.org/forum/
+      Bugtracker: https://github.com/miniupnp/miniupnp/issues
+    %endif
 #
 SetupOptions: -q -n %{name}-%{version}/%{name}
 RpmLintIgnore:
@@ -66,15 +60,35 @@ PkgBR:
 PkgConfigBR:
   - openssl
   - libsystemd
-Configure: none
+Configure: cmake
+ConfigOptions:
+  - '-DUPNPC_BUILD_STATIC=FALSE'
+  - '-DUPNPC_BUILD_TESTS=FALSE'
+  # '-DNO_GETADDRINFO "Define NO_GETADDRINFO" FALSE)
+
 Builder: make
 NoIconCache: true
 #BuildArch: noarch
 #AutoSubPackages:
-#  - doc
-Files:
-  - '%{_bindir}/*'
-  - '%dir %{_datadir}/%{name}'
-  - '%{_datadir}/%{name}/translations/*.qm'
-  - '%{_datadir}/%{name}/qml/*'
+  # doc
+SubPackages:
+    - Name:  devel
+      Summary:    Development files for %{name}
+      Group:      Development/Libraries
+      Description: |
+          %{summary}.
+          %if "%{?vendor}" == "chum"
+          PackageName: %{name}
+          Type: console-application
+          PackagerName: nephros
+          DeveloperName: Thomas Bernard
+          Custom:
+            Repo: https://github.com/nephros/transmission
+          Url:
+            Homepage: %{url}
+            Help: http://miniupnp.tuxfamily.org/forum/
+            Bugtracker: https://github.com/miniupnp/miniupnp/issues
+          %endif
+
+
 

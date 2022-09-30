@@ -8,17 +8,19 @@ Name:       miniupnpc
 # >> macros
 # << macros
 
-Summary:    miniupnpc
+Summary:    an implementation of a UPnP IGD + NAT-PMP / PCP gateway
 Version:    2.0.20170509
 Release:    0
 Group:      Applications/Internet
-License:    GPLv2+ and GPLv3+
-URL:        https://transmissionbt.com
+License:    BSD-3-Clause
+URL:        http://miniupnp.tuxfamily.org/
 Source0:    %{name}-%{version}.tar.gz
 Source100:  miniupnpc.yaml
 Source101:  miniupnpc-rpmlintrc
 Requires(post): systemd
+Requires(post): /sbin/ldconfig
 Requires(postun): systemd
+Requires(postun): /sbin/ldconfig
 BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  cmake
@@ -27,7 +29,43 @@ BuildRequires:  libnatpmp-devel
 BuildRequires:  curl-devel
 
 %description
+
 %{summary}.
+
+%if "%{?vendor}" == "chum"
+PackageName: MiniUPnP
+Type: console-application
+PackagerName: nephros
+DeveloperName: Thomas Bernard
+Custom:
+  Repo: https://github.com/nephros/transmission
+Url:
+  Homepage: %{url}
+  Help: http://miniupnp.tuxfamily.org/forum/
+  Bugtracker: https://github.com/miniupnp/miniupnp/issues
+%endif
+
+
+%package devel
+Summary:    Development files for %{name}
+Group:      Development/Libraries
+Requires:   %{name} = %{version}-%{release}
+
+%description devel
+%{summary}.
+%if "%{?vendor}" == "chum"
+PackageName: %{name}
+Type: console-application
+PackagerName: nephros
+DeveloperName: Thomas Bernard
+Custom:
+  Repo: https://github.com/nephros/transmission
+Url:
+  Homepage: %{url}
+  Help: http://miniupnp.tuxfamily.org/forum/
+  Bugtracker: https://github.com/miniupnp/miniupnp/issues
+%endif
+
 
 %prep
 %setup -q -n %{name}-%{version}/%{name}
@@ -39,6 +77,9 @@ BuildRequires:  curl-devel
 # >> build pre
 # << build pre
 
+%cmake .  \
+    -DUPNPC_BUILD_STATIC=FALSE \
+    -DUPNPC_BUILD_TESTS=FALSE
 
 make %{?_smp_mflags}
 
@@ -54,11 +95,19 @@ rm -rf %{buildroot}
 # >> install post
 # << install post
 
+%post -p /sbin/ldconfig
+
+%postun -p /sbin/ldconfig
+
 %files
 %defattr(-,root,root,-)
-%{_bindir}/*
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/translations/*.qm
-%{_datadir}/%{name}/qml/*
 # >> files
+%{_libdir}/*.so.*
 # << files
+
+%files devel
+%defattr(-,root,root,-)
+# >> files devel
+%{_libdir}/*.so
+%{_includedir}/*'
+# << files devel

@@ -26,6 +26,7 @@ BuildRequires:  pkgconfig(libsystemd)
 BuildRequires:  cmake
 BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
+BuildRequires:  miniupnpc-devel
 BuildRequires:  curl-devel
 
 %description

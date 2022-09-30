@@ -62,7 +62,7 @@ PkgBR:
   # qml-rpm-macros
   - libevent-devel
   - libnatpmp-devel
-  # miniupnpc-devel
+  - miniupnpc-devel
   - curl-devel
 PkgConfigBR:
   - openssl
