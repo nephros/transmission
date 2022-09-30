@@ -1,0 +1,11 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 6d4aa99..3c0326d 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -5,5 +5,5 @@ add_library(${PROJECT_NAME} STATIC
+     dht.c
+ )
+ 
+-install(TARGETS ${PROJECT_NAME} DESTINATION lib)
++install(TARGETS ${PROJECT_NAME} ARCHIVE DESTINATION ${LIB_INSTALL_DIR})
+ install(FILES dht.h DESTINATION include/dht)

@@ -27,6 +27,7 @@ BuildRequires:  cmake
 BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
 BuildRequires:  miniupnpc-devel
+BuildRequires:  dht-devel
 BuildRequires:  curl-devel
 
 %description
@@ -106,14 +107,14 @@ PackagerName: nephros
     -DENABLE_QT=OFF \
     -DENABLE_TESTS=OFF \
     -DUSE_SYSTEM_EVENT2=ON \
-    -DUSE_SYSTEM_DHT=OFF \
+    -DUSE_SYSTEM_DHT=ON \
     -DUSE_SYSTEM_MINIUPNPC=ON \
     -DUSE_SYSTEM_NATPMP=ON \
     -DUSE_SYSTEM_UTP=OFF \
     -DUSE_SYSTEM_B64=OFF \
     -DWITH_CRYPTO=openssl \
     -DWITH_INOTIFY=ON \
-    -DWITH_LIBAPPINDICATOR=ON \
+    -DWITH_LIBAPPINDICATOR=OFF \
     -DWITH_SYSTEMD=ON
 
 make %{?_smp_mflags}

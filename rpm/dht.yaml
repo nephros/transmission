@@ -1,0 +1,81 @@
+Name: dht
+Summary: an implementation of DHT
+Version: 0.25
+Release: 0
+Group: Applications/Internet
+License: BSD
+URL: http://miniupnp.tuxfamily.org/
+SCM: https://github.com/nephros/transmission
+Sources:
+    - '%{name}-%{version}.tar.gz'
+Patches:
+    - 'dht-libdir-fix.patch'
+Description: |
+    %{name} implements the variant of the Kademlia Distributed Hash Table (DHT)
+    used in the Bittorrent network
+
+    %if "%{?vendor}" == "chum"
+    PackageName: DHT
+    Type: console-application
+    PackagerName: nephros
+    DeveloperName: Juliusz Chroboczek
+    Custom:
+      Repo: https://github.com/nephros/transmission
+    Url:
+      Homepage: %{url}
+      Help: http://miniupnp.tuxfamily.org/forum/
+      Bugtracker: https://github.com/miniupnp/miniupnp/issues
+    %endif
+#
+SetupOptions: -q -n %{name}-%{version}/%{name}
+RpmLintIgnore:
+  - 'summary-too-long'
+  - 'no-changelogname-tag'
+  - 'invalid-url'
+  - 'desktopfile-without-binary'
+  - 'explicit-lib-dependency'
+#Macros:
+#  - 'foo;bar'
+#  - |
+#    spectacle_bug; hack_fix
+#    # Spectacular spectacle hack:
+#    #   abuse Macros to work around the Macro-deleting bug in 0.32
+#    #   also, add a conditional dep:
+#    %if 0%{?sailfishos_version} >= 30400
+#    BuildRequires: some-package
+#    %endif
+#Patches:
+#  - 'baz'
+PkgBR:
+  - cmake
+Configure: cmake
+ConfigOptions:
+  - '-DUPNPC_BUILD_STATIC=FALSE'
+  - '-DUPNPC_BUILD_TESTS=FALSE'
+  # '-DNO_GETADDRINFO "Define NO_GETADDRINFO" FALSE)
+
+Builder: make
+NoIconCache: true
+#BuildArch: noarch
+#AutoSubPackages:
+  # doc
+SubPackages:
+    - Name:  devel
+      Summary:    Development files for %{name}
+      Group:      Development/Libraries
+      Description: |
+          %{name} implements the variant of the Kademlia Distributed Hash Table (DHT)
+          used in the Bittorrent network
+
+          %if "%{?vendor}" == "chum"
+          PackageName: DHT
+          PackagerName: nephros
+          DeveloperName: Juliusz Chroboczek
+          Custom:
+            Repo: https://github.com/nephros/transmission
+          Url:
+            Homepage: %{url}
+            Help: http://miniupnp.tuxfamily.org/forum/
+            Bugtracker: https://github.com/miniupnp/miniupnp/issues
+          %endif
+
