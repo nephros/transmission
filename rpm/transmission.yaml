@@ -64,7 +64,7 @@ PkgBR:
   - curl-devel
 PkgConfigBR:
   - openssl
-  - libsystemd
+  - systemd
 Configure: cmake
 ConfigOptions: 
    - '-DCMAKE_INSTALL_DOCDIR=share/doc/%{name}'

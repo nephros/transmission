@@ -27,6 +27,7 @@ Requires:   %{name}-tools
 Requires(post): systemd
 Requires(postun): systemd
 BuildRequires:  pkgconfig(openssl)
+BuildRequires:  pkgconfig(systemd)
 BuildRequires:  cmake
 BuildRequires:  libevent-devel
 BuildRequires:  libnatpmp-devel
