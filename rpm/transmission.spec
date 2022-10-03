@@ -10,7 +10,7 @@ Name:       transmission
 
 Summary:    BitTorrent daemon and client
 Version:    3.0.0
-Release:    0
+Release:    1
 Group:      Applications/Internet
 License:    GPLv2+ or GPLv3+
 URL:        https://transmissionbt.com
@@ -29,9 +29,6 @@ BuildRequires:  pkgconfig(openssl)
 BuildRequires:  pkgconfig(systemd)
 BuildRequires:  pkgconfig(libevent)
 BuildRequires:  cmake
-BuildRequires:  libnatpmp-devel
-BuildRequires:  miniupnpc-devel
-BuildRequires:  dht-devel
 BuildRequires:  curl-devel
 
 %description
@@ -184,10 +181,10 @@ Categories:
     -DENABLE_NLS=OFF \
     -DENABLE_QT=OFF \
     -DENABLE_TESTS=OFF \
-    -DUSE_SYSTEM_EVENT2=ON \
-    -DUSE_SYSTEM_DHT=ON \
-    -DUSE_SYSTEM_MINIUPNPC=ON \
-    -DUSE_SYSTEM_NATPMP=ON \
+    -DUSE_SYSTEM_EVENT2=OFF \
+    -DUSE_SYSTEM_DHT=OFF \
+    -DUSE_SYSTEM_MINIUPNPC=OFF \
+    -DUSE_SYSTEM_NATPMP=OFF \
     -DUSE_SYSTEM_UTP=OFF \
     -DUSE_SYSTEM_B64=OFF \
     -DWITH_CRYPTO=openssl \
