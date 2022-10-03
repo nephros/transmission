@@ -171,6 +171,15 @@ Categories:
 
 %build
 # >> build pre
+echo "PWD is: $PWD"
+pushd third-party
+#for dep in dht/ libevent/ libnatpmp/ libutp/ miniupnpc/
+for dep in dht miniupnpc
+do
+rm -rf $dep
+cp -r %{_builddir}/$dep $dep
+done
+
 # << build pre
 
 %cmake .  \
